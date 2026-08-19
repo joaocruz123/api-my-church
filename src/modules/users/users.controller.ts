@@ -6,17 +6,24 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common'
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger'
+import { Roles } from '../auth/decorators/roles.decorator'
 import type { PaginateQuery } from 'nestjs-paginate'
 import { Paginate } from 'nestjs-paginate'
+import {
+  toPaginatedHttpResponse,
+  withSearchQuery,
+} from '../../common/pagination/paginated-response.util'
 import { ApiPaginateQuery } from '../../common/swagger/api-paginate-query.decorator'
 import { ResponseInterceptor } from '../../response.interceptor'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -29,6 +36,8 @@ import { StatusUserUseCase } from './use-cases/status-user.use-case'
 import { UpdateUserUseCase } from './use-cases/update-user.use-case'
 
 @ApiTags('Users')
+@ApiBearerAuth()
+@Roles('admin')
 @UseInterceptors(ResponseInterceptor)
 @Controller('users')
 export class UsersController {
@@ -52,12 +61,14 @@ export class UsersController {
   @ApiOperation({ summary: 'Listar usuários (paginado)' })
   @ApiPaginateQuery()
   @ApiOkResponse({ description: 'Usuários recuperados com sucesso' })
-  async findAll(@Paginate() query: PaginateQuery) {
-    const response = await this.findAllUserUseCase.execute(query)
-    return {
-      message: 'Usuários recuperados com sucesso!',
-      result: response,
-    }
+  async findAll(@Paginate() query: PaginateQuery, @Query('q') q?: string) {
+    const response = await this.findAllUserUseCase.execute(
+      withSearchQuery(query, q),
+    )
+    return toPaginatedHttpResponse(
+      response,
+      'Usuários recuperados com sucesso!',
+    )
   }
 
   @Get(':id')

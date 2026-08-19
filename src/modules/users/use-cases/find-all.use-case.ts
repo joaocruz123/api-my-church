@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate'
 import { Repository } from 'typeorm'
+import { PAGINATE_DEFAULTS } from '../../../common/pagination/paginated-response.util'
 import { User } from '../entities/user.entity'
 
 @Injectable()
@@ -17,6 +18,8 @@ export class FindAllUserUseCase {
       defaultSortBy: [['name', 'ASC']],
       searchableColumns: ['name', 'email', 'role'],
       select: ['id', 'name', 'email', 'role', 'status', 'created_at'],
+      defaultLimit: PAGINATE_DEFAULTS.defaultLimit,
+      maxLimit: PAGINATE_DEFAULTS.maxLimit,
     })
   }
 }

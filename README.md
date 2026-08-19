@@ -74,6 +74,8 @@ API disponível em `http://localhost:3000/api`.
 
 Documentação Swagger em `http://localhost:3000/api/docs`.
 
+Guia completo (WampServer + API + UI): [`docs/LOCAL_SETUP.md`](../docs/LOCAL_SETUP.md).
+
 ## Scripts
 
 | Comando | Descrição |

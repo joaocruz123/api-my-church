@@ -6,6 +6,7 @@ import { AppService } from './app.service'
 import { TypeOrmConfigService } from './config/config.service'
 import { AgendaModule } from './modules/agenda/agenda.module'
 import { AnnouncementsModule } from './modules/announcements/announcements.module'
+import { AuthModule } from './modules/auth/auth.module'
 import { FinanceCategoriesModule } from './modules/finance-categories/finance-categories.module'
 import { FinanceEntriesModule } from './modules/finance-entries/finance-entries.module'
 import { MembersModule } from './modules/member/members.module'
@@ -13,11 +14,12 @@ import { UsersModule } from './modules/users/users.module'
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
     }),
-    ConfigModule.forRoot(),
+    AuthModule,
     UsersModule,
     MembersModule,
     FinanceCategoriesModule,

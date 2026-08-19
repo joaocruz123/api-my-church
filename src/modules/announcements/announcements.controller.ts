@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common'
 import {
@@ -17,6 +18,10 @@ import {
 } from '@nestjs/swagger'
 import type { PaginateQuery } from 'nestjs-paginate'
 import { Paginate } from 'nestjs-paginate'
+import {
+  toPaginatedHttpResponse,
+  withSearchQuery,
+} from '../../common/pagination/paginated-response.util'
 import { ApiPaginateQuery } from '../../common/swagger/api-paginate-query.decorator'
 import { ResponseInterceptor } from '../../response.interceptor'
 import { CreateAnnouncementDto } from './dto/create-announcement.dto'
@@ -52,12 +57,11 @@ export class AnnouncementsController {
   @ApiOperation({ summary: 'Listar avisos (paginado)' })
   @ApiPaginateQuery()
   @ApiOkResponse({ description: 'Avisos recuperados com sucesso' })
-  async findAll(@Paginate() query: PaginateQuery) {
-    const response = await this.findAllAnnouncementUseCase.execute(query)
-    return {
-      message: 'Avisos recuperados com sucesso!',
-      result: response,
-    }
+  async findAll(@Paginate() query: PaginateQuery, @Query('q') q?: string) {
+    const response = await this.findAllAnnouncementUseCase.execute(
+      withSearchQuery(query, q),
+    )
+    return toPaginatedHttpResponse(response, 'Avisos recuperados com sucesso!')
   }
 
   @Get(':id')

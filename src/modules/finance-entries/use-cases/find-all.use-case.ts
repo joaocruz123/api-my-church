@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate'
 import { Repository } from 'typeorm'
+import { PAGINATE_DEFAULTS } from '../../../common/pagination/paginated-response.util'
 import { FinanceEntry } from '../entities/finance-entry.entity'
 
 @Injectable()
@@ -44,6 +45,8 @@ export class FindAllFinanceEntryUseCase {
         'status',
         'created_at',
       ],
+      defaultLimit: PAGINATE_DEFAULTS.defaultLimit,
+      maxLimit: PAGINATE_DEFAULTS.maxLimit,
     })
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate'
 import { Repository } from 'typeorm'
+import { PAGINATE_DEFAULTS } from '../../../common/pagination/paginated-response.util'
 import { Member } from '../entities/member.entity'
 
 @Injectable()
@@ -31,20 +32,8 @@ export class FindAllMemberUseCase {
         ministry: true,
         status: true,
       },
-      select: [
-        'id',
-        'name',
-        'date_birth',
-        'gender',
-        'phone',
-        'email',
-        'cpf',
-        'city',
-        'ministry',
-        'member_status',
-        'status',
-        'created_at',
-      ],
+      defaultLimit: PAGINATE_DEFAULTS.defaultLimit,
+      maxLimit: PAGINATE_DEFAULTS.maxLimit,
     })
   }
 }

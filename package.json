@@ -17,38 +17,53 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "seed:members": "node scripts/seed-members.cjs",
+    "commit": "cz",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.2",
     "@nestjs/mapped-types": "^2.1.1",
+    "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.4.6",
     "@nestjs/typeorm": "^11.0.3",
+    "bcrypt": "^6.0.0",
     "mysql2": "^3.23.2",
     "nestjs-paginate": "^12.11.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.31",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "20.5.3",
+    "@commitlint/config-conventional": "20.5.3",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.0",
+    "@types/passport-jwt": "^4.0.1",
     "@types/supertest": "^7.0.0",
     "@types/uuid": "^10.0.0",
+    "commitizen": "4.3.2",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^17.0.0",
+    "husky": "9.1.7",
     "jest": "^30.0.0",
     "prettier": "^3.4.2",
     "prettier-plugin-organize-imports": "^4.3.0",
@@ -77,5 +92,10 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

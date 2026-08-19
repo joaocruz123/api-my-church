@@ -20,5 +20,6 @@ import { UsersController } from './users.controller'
     StatusUserUseCase,
     RemoveUserUseCase,
   ],
+  exports: [TypeOrmModule],
 })
 export class UsersModule {}

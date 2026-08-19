@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common'
 import {
@@ -17,6 +18,10 @@ import {
 } from '@nestjs/swagger'
 import type { PaginateQuery } from 'nestjs-paginate'
 import { Paginate } from 'nestjs-paginate'
+import {
+  toPaginatedHttpResponse,
+  withSearchQuery,
+} from '../../common/pagination/paginated-response.util'
 import { ApiPaginateQuery } from '../../common/swagger/api-paginate-query.decorator'
 import { ResponseInterceptor } from '../../response.interceptor'
 import { CreateFinanceCategoryDto } from './dto/create-finance-category.dto'
@@ -54,12 +59,14 @@ export class FinanceCategoriesController {
   @ApiOkResponse({
     description: 'Categorias financeiras recuperadas com sucesso',
   })
-  async findAll(@Paginate() query: PaginateQuery) {
-    const response = await this.findAllFinanceCategoryUseCase.execute(query)
-    return {
-      message: 'Categorias financeiras recuperadas com sucesso!',
-      result: response,
-    }
+  async findAll(@Paginate() query: PaginateQuery, @Query('q') q?: string) {
+    const response = await this.findAllFinanceCategoryUseCase.execute(
+      withSearchQuery(query, q),
+    )
+    return toPaginatedHttpResponse(
+      response,
+      'Categorias financeiras recuperadas com sucesso!',
+    )
   }
 
   @Get(':id')

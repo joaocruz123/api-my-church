@@ -14,7 +14,7 @@ export function ApiPaginateQuery() {
       name: 'limit',
       required: false,
       type: Number,
-      example: 20,
+      example: 10,
       description: 'Itens por página',
     }),
     ApiQuery({
@@ -29,6 +29,12 @@ export function ApiPaginateQuery() {
       required: false,
       type: String,
       description: 'Busca textual',
+    }),
+    ApiQuery({
+      name: 'q',
+      required: false,
+      type: String,
+      description: 'Busca textual (alias de search)',
     }),
     ApiQuery({
       name: 'searchBy',
