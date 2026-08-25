@@ -13,6 +13,7 @@ import { SeedAdminService } from './services/seed-admin.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { GetProfileUseCase } from './use-cases/get-profile.use-case'
 import { LoginUseCase } from './use-cases/login.use-case'
+import { requireJwtSecret } from '../../common/utils/jwt-secret.util'
 
 @Module({
   imports: [
@@ -23,9 +24,10 @@ import { LoginUseCase } from './use-cases/login.use-case'
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret:
-          config.get<string>('ACCESS_SECRET_JWT') ??
-          'default-secret-change-in-production',
+        secret: requireJwtSecret(
+          config.get<string>('ACCESS_SECRET_JWT'),
+          'ACCESS_SECRET_JWT',
+        ),
         signOptions: {
           expiresIn: (config.get<string>('JWT_EXPIRES_IN') ?? '1d') as StringValue,
         },

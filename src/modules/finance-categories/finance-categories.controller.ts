@@ -24,6 +24,11 @@ import {
 } from '../../common/pagination/paginated-response.util'
 import { ApiPaginateQuery } from '../../common/swagger/api-paginate-query.decorator'
 import { ResponseInterceptor } from '../../response.interceptor'
+import { Roles } from '../auth/decorators/roles.decorator'
+import {
+  FINANCE_READ_ROLES,
+  FINANCE_WRITE_ROLES,
+} from '../auth/roles.constants'
 import { CreateFinanceCategoryDto } from './dto/create-finance-category.dto'
 import { UpdateFinanceCategoryDto } from './dto/update-finance-category.dto'
 import { CreateFinanceCategoryUseCase } from './use-cases/create-finance-category.use-case'
@@ -47,6 +52,7 @@ export class FinanceCategoriesController {
   ) {}
 
   @Post()
+  @Roles(...FINANCE_WRITE_ROLES)
   @ApiOperation({ summary: 'Criar categoria financeira' })
   @ApiCreatedResponse({ description: 'Categoria financeira criada com sucesso' })
   create(@Body() createFinanceCategoryDto: CreateFinanceCategoryDto) {
@@ -54,6 +60,7 @@ export class FinanceCategoriesController {
   }
 
   @Get()
+  @Roles(...FINANCE_READ_ROLES)
   @ApiOperation({ summary: 'Listar categorias financeiras (paginado)' })
   @ApiPaginateQuery()
   @ApiOkResponse({
@@ -70,6 +77,7 @@ export class FinanceCategoriesController {
   }
 
   @Get(':id')
+  @Roles(...FINANCE_READ_ROLES)
   @ApiOperation({ summary: 'Buscar categoria financeira por ID' })
   @ApiParam({ name: 'id', description: 'ID da categoria financeira' })
   @ApiOkResponse({
@@ -84,6 +92,7 @@ export class FinanceCategoriesController {
   }
 
   @Patch(':id')
+  @Roles(...FINANCE_WRITE_ROLES)
   @ApiOperation({ summary: 'Atualizar categoria financeira' })
   @ApiParam({ name: 'id', description: 'ID da categoria financeira' })
   @ApiOkResponse({
@@ -104,6 +113,7 @@ export class FinanceCategoriesController {
   }
 
   @Patch(':id/status')
+  @Roles(...FINANCE_WRITE_ROLES)
   @ApiOperation({ summary: 'Atualizar status da categoria financeira' })
   @ApiParam({ name: 'id', description: 'ID da categoria financeira' })
   @ApiOkResponse({
@@ -124,6 +134,7 @@ export class FinanceCategoriesController {
   }
 
   @Delete(':id')
+  @Roles(...FINANCE_WRITE_ROLES)
   @ApiOperation({ summary: 'Remover categoria financeira' })
   @ApiParam({ name: 'id', description: 'ID da categoria financeira' })
   @ApiOkResponse({

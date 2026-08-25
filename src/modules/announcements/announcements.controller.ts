@@ -24,6 +24,8 @@ import {
 } from '../../common/pagination/paginated-response.util'
 import { ApiPaginateQuery } from '../../common/swagger/api-paginate-query.decorator'
 import { ResponseInterceptor } from '../../response.interceptor'
+import { Roles } from '../auth/decorators/roles.decorator'
+import { MURAL_READ_ROLES, MURAL_WRITE_ROLES } from '../auth/roles.constants'
 import { CreateAnnouncementDto } from './dto/create-announcement.dto'
 import { UpdateAnnouncementDto } from './dto/update-announcement.dto'
 import { CreateAnnouncementUseCase } from './use-cases/create-announcement.use-case'
@@ -47,6 +49,7 @@ export class AnnouncementsController {
   ) {}
 
   @Post()
+  @Roles(...MURAL_WRITE_ROLES)
   @ApiOperation({ summary: 'Criar aviso' })
   @ApiCreatedResponse({ description: 'Aviso criado com sucesso' })
   create(@Body() createAnnouncementDto: CreateAnnouncementDto) {
@@ -54,6 +57,7 @@ export class AnnouncementsController {
   }
 
   @Get()
+  @Roles(...MURAL_READ_ROLES)
   @ApiOperation({ summary: 'Listar avisos (paginado)' })
   @ApiPaginateQuery()
   @ApiOkResponse({ description: 'Avisos recuperados com sucesso' })
@@ -65,6 +69,7 @@ export class AnnouncementsController {
   }
 
   @Get(':id')
+  @Roles(...MURAL_READ_ROLES)
   @ApiOperation({ summary: 'Buscar aviso por ID' })
   @ApiParam({ name: 'id', description: 'ID do aviso' })
   @ApiOkResponse({ description: 'Aviso recuperado com sucesso' })
@@ -77,6 +82,7 @@ export class AnnouncementsController {
   }
 
   @Patch(':id')
+  @Roles(...MURAL_WRITE_ROLES)
   @ApiOperation({ summary: 'Atualizar aviso' })
   @ApiParam({ name: 'id', description: 'ID do aviso' })
   @ApiOkResponse({ description: 'Aviso atualizado com sucesso' })
@@ -95,6 +101,7 @@ export class AnnouncementsController {
   }
 
   @Patch(':id/status')
+  @Roles(...MURAL_WRITE_ROLES)
   @ApiOperation({ summary: 'Atualizar status do aviso' })
   @ApiParam({ name: 'id', description: 'ID do aviso' })
   @ApiOkResponse({ description: 'Status do aviso atualizado com sucesso' })
@@ -113,6 +120,7 @@ export class AnnouncementsController {
   }
 
   @Delete(':id')
+  @Roles(...MURAL_WRITE_ROLES)
   @ApiOperation({ summary: 'Remover aviso' })
   @ApiParam({ name: 'id', description: 'ID do aviso' })
   @ApiOkResponse({ description: 'Aviso removido com sucesso' })

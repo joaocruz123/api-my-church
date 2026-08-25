@@ -4,6 +4,7 @@ import { AgendaController } from './agenda.controller'
 import { AgendaItem } from './entities/agenda-item.entity'
 import { CreateAgendaItemUseCase } from './use-cases/create-agenda-item.use-case'
 import { FindAllAgendaItemUseCase } from './use-cases/find-all.use-case'
+import { FindCalendarAgendaItemUseCase } from './use-cases/find-calendar.use-case'
 import { FindIdAgendaItemUseCase } from './use-cases/find-id.use-case'
 import { RemoveAgendaItemUseCase } from './use-cases/remove-agenda-item.use-case'
 import { StatusAgendaItemUseCase } from './use-cases/status-agenda-item.use-case'
@@ -15,6 +16,7 @@ import { UpdateAgendaItemUseCase } from './use-cases/update-agenda-item.use-case
   providers: [
     CreateAgendaItemUseCase,
     FindAllAgendaItemUseCase,
+    FindCalendarAgendaItemUseCase,
     FindIdAgendaItemUseCase,
     UpdateAgendaItemUseCase,
     StatusAgendaItemUseCase,

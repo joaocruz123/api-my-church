@@ -7,12 +7,14 @@ import { FinanceCategory } from 'src/modules/finance-categories/entities/finance
 import { FinanceEntry } from 'src/modules/finance-entries/entities/finance-entry.entity'
 import { Member } from 'src/modules/member/entities/member.entity'
 import { User } from 'src/modules/users/entities/user.entity'
+import { MemberEmailUnique1730000000000 } from 'src/migrations/1730000000000-MemberEmailUnique'
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
+    const isProd = process.env.NODE_ENV === 'production'
     return {
       type: 'mysql',
       host: this.configService.get<string>('DATABASE_HOST'),
@@ -20,11 +22,12 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: this.configService.get<string>('DATABASE_USERNAME'),
       password: this.configService.get<string>('DATABASE_PASSWORD'),
       database: this.configService.get<string>('DATABASE_DATABASE'),
-      synchronize: true,
+      synchronize: !isProd,
+      migrationsRun: isProd,
       extra: {
         ssl: false,
       },
-      logging: true,
+      logging: process.env.NODE_ENV !== 'production',
       entities: [
         User,
         Member,
@@ -33,7 +36,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         Announcement,
         AgendaItem,
       ],
-      migrations: [],
+      migrations: [MemberEmailUnique1730000000000],
     }
   }
 }

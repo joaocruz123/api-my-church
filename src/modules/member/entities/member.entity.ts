@@ -31,7 +31,7 @@ export class Member {
   @Column({ type: 'varchar', nullable: true, unique: true })
   cpf?: string | null
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', nullable: true, unique: true })
   email?: string | null
 
   @Column({ type: 'varchar', nullable: true })
