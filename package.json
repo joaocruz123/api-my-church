@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed:members": "node scripts/seed-members.cjs",
     "seed:finance": "node scripts/seed-finance.cjs",
+    "seed:admin": "node scripts/seed-admin.cjs",
     "commit": "cz",
     "prepare": "husky"
   },
