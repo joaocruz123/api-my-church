@@ -6,7 +6,9 @@ import { FinanceEntriesController } from './finance-entries.controller'
 import { CreateFinanceEntryUseCase } from './use-cases/create-finance-entry.use-case'
 import { FindAllFinanceEntryUseCase } from './use-cases/find-all.use-case'
 import { FindIdFinanceEntryUseCase } from './use-cases/find-id.use-case'
+import { GetFinanceDailySummaryUseCase } from './use-cases/get-finance-daily-summary.use-case'
 import { GetFinanceSummaryUseCase } from './use-cases/get-finance-summary.use-case'
+import { GetFinanceYearlySummaryUseCase } from './use-cases/get-finance-yearly-summary.use-case'
 import { RemoveFinanceEntryUseCase } from './use-cases/remove-finance-entry.use-case'
 import { StatusFinanceEntryUseCase } from './use-cases/status-finance-entry.use-case'
 import { UpdateFinanceEntryUseCase } from './use-cases/update-finance-entry.use-case'
@@ -19,6 +21,8 @@ import { UpdateFinanceEntryUseCase } from './use-cases/update-finance-entry.use-
     FindAllFinanceEntryUseCase,
     FindIdFinanceEntryUseCase,
     GetFinanceSummaryUseCase,
+    GetFinanceYearlySummaryUseCase,
+    GetFinanceDailySummaryUseCase,
     UpdateFinanceEntryUseCase,
     StatusFinanceEntryUseCase,
     RemoveFinanceEntryUseCase,

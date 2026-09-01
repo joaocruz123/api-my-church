@@ -19,6 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed:members": "node scripts/seed-members.cjs",
+    "seed:finance": "node scripts/seed-finance.cjs",
     "commit": "cz",
     "prepare": "husky"
   },
@@ -37,6 +38,7 @@
     "nestjs-paginate": "^12.11.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "pdfkit": "^0.20.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.31",
@@ -55,6 +57,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.0",
     "@types/passport-jwt": "^4.0.1",
+    "@types/pdfkit": "^0.17.6",
     "@types/supertest": "^7.0.0",
     "@types/uuid": "^10.0.0",
     "commitizen": "4.3.2",

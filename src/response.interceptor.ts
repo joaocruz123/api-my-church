@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
+  StreamableFile,
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -25,13 +26,19 @@ const PAGINATION_KEYS = [
 ] as const
 
 @Injectable()
-export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
+export class ResponseInterceptor<T>
+  implements NestInterceptor<T, Response<T> | StreamableFile | Buffer>
+{
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<Response<T>> {
+  ): Observable<Response<T> | StreamableFile | Buffer> {
     return next.handle().pipe(
       map((data) => {
+        if (data instanceof StreamableFile || Buffer.isBuffer(data)) {
+          return data
+        }
+
         const pagination = pickPagination(data)
 
         if (

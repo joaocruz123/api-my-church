@@ -14,6 +14,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger'
 import type { PaginateQuery } from 'nestjs-paginate'
@@ -34,7 +35,9 @@ import { UpdateFinanceEntryDto } from './dto/update-finance-entry.dto'
 import { CreateFinanceEntryUseCase } from './use-cases/create-finance-entry.use-case'
 import { FindAllFinanceEntryUseCase } from './use-cases/find-all.use-case'
 import { FindIdFinanceEntryUseCase } from './use-cases/find-id.use-case'
+import { GetFinanceDailySummaryUseCase } from './use-cases/get-finance-daily-summary.use-case'
 import { GetFinanceSummaryUseCase } from './use-cases/get-finance-summary.use-case'
+import { GetFinanceYearlySummaryUseCase } from './use-cases/get-finance-yearly-summary.use-case'
 import { RemoveFinanceEntryUseCase } from './use-cases/remove-finance-entry.use-case'
 import { StatusFinanceEntryUseCase } from './use-cases/status-finance-entry.use-case'
 import { UpdateFinanceEntryUseCase } from './use-cases/update-finance-entry.use-case'
@@ -47,6 +50,8 @@ export class FinanceEntriesController {
     private readonly createFinanceEntryUseCase: CreateFinanceEntryUseCase,
     private readonly findAllFinanceEntryUseCase: FindAllFinanceEntryUseCase,
     private readonly getFinanceSummaryUseCase: GetFinanceSummaryUseCase,
+    private readonly getFinanceYearlySummaryUseCase: GetFinanceYearlySummaryUseCase,
+    private readonly getFinanceDailySummaryUseCase: GetFinanceDailySummaryUseCase,
     private readonly findIdFinanceEntryUseCase: FindIdFinanceEntryUseCase,
     private readonly updateFinanceEntryUseCase: UpdateFinanceEntryUseCase,
     private readonly statusFinanceEntryUseCase: StatusFinanceEntryUseCase,
@@ -97,6 +102,48 @@ export class FinanceEntriesController {
     )
     return {
       message: 'Resumo financeiro recuperado com sucesso!',
+      result,
+    }
+  }
+
+  @Get('summary/yearly')
+  @Roles(...FINANCE_READ_ROLES)
+  @ApiOperation({ summary: 'Balanço anual de entradas e saídas por mês' })
+  @ApiQuery({ name: 'year', required: false, type: Number })
+  @ApiOkResponse({
+    description: 'Resumo financeiro anual recuperado com sucesso',
+  })
+  async yearlySummary(@Query('year') year?: string) {
+    const parsedYear = year ? Number(year) : new Date().getFullYear()
+    const result =
+      await this.getFinanceYearlySummaryUseCase.execute(parsedYear)
+    return {
+      message: 'Resumo financeiro anual recuperado com sucesso!',
+      result,
+    }
+  }
+
+  @Get('summary/daily')
+  @Roles(...FINANCE_READ_ROLES)
+  @ApiOperation({ summary: 'Balanço diário de entradas e saídas do mês' })
+  @ApiQuery({ name: 'year', required: false, type: Number })
+  @ApiQuery({ name: 'month', required: false, type: Number })
+  @ApiOkResponse({
+    description: 'Resumo financeiro diário recuperado com sucesso',
+  })
+  async dailySummary(
+    @Query('year') year?: string,
+    @Query('month') month?: string,
+  ) {
+    const now = new Date()
+    const parsedYear = year ? Number(year) : now.getFullYear()
+    const parsedMonth = month ? Number(month) : now.getMonth() + 1
+    const result = await this.getFinanceDailySummaryUseCase.execute(
+      parsedYear,
+      parsedMonth,
+    )
+    return {
+      message: 'Resumo financeiro diário recuperado com sucesso!',
       result,
     }
   }

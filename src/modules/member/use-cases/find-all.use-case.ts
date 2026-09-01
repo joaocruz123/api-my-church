@@ -4,6 +4,10 @@ import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate'
 import { Repository } from 'typeorm'
 import { PAGINATE_DEFAULTS } from '../../../common/pagination/paginated-response.util'
 import { Member } from '../entities/member.entity'
+import {
+  applyMemberFilters,
+  type MemberListFilters,
+} from '../member-filters'
 
 @Injectable()
 export class FindAllMemberUseCase {
@@ -12,8 +16,14 @@ export class FindAllMemberUseCase {
     private readonly memberRepo: Repository<Member>,
   ) {}
 
-  execute(query: PaginateQuery): Promise<Paginated<Member>> {
-    return paginate(query, this.memberRepo, {
+  execute(
+    query: PaginateQuery,
+    filters: MemberListFilters = {},
+  ): Promise<Paginated<Member>> {
+    const qb = this.memberRepo.createQueryBuilder('member')
+    applyMemberFilters(qb, filters)
+
+    return paginate(query, qb, {
       sortableColumns: [
         'id',
         'name',
@@ -21,6 +31,7 @@ export class FindAllMemberUseCase {
         'city',
         'member_status',
         'ministry',
+        'date_birth',
         'created_at',
         'status',
       ],

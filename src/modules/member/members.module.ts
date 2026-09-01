@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Member } from './entities/member.entity'
 import { MembersController } from './members.controller'
 import { CreateMemberUseCase } from './use-cases/create-member.use-case'
+import { ExportMembersPdfUseCase } from './use-cases/export-members-pdf.use-case'
 import { FindAllMemberUseCase } from './use-cases/find-all.use-case'
 import { FindBirthdaysMemberUseCase } from './use-cases/find-birthdays.use-case'
 import { FindIdMemberUseCase } from './use-cases/find-id.use-case'
@@ -17,6 +18,7 @@ import { MemberUniquenessService } from './services/member-uniqueness.service'
   controllers: [MembersController],
   providers: [
     CreateMemberUseCase,
+    ExportMembersPdfUseCase,
     FindAllMemberUseCase,
     FindBirthdaysMemberUseCase,
     GetMemberStatsUseCase,

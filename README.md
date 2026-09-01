@@ -85,3 +85,5 @@ Guia completo (WampServer + API + UI): [`docs/LOCAL_SETUP.md`](../docs/LOCAL_SET
 | `npm run start:prod` | Sobe `dist/main` |
 | `npm run lint` | ESLint |
 | `npm test` | Testes unitários |
+| `npm run seed:members` | Massa de membros para desenvolvimento |
+| `npm run seed:finance` | Massa de categorias e lançamentos financeiros |
